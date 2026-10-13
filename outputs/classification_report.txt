@@ -1,0 +1,20 @@
+SAVED MODEL - FINAL TEST EVALUATION
+=============================================
+Selected threshold: 0.8000
+Training rows: 30000
+Validation rows: 10000
+Reserved test rows: 10000
+
+              precision    recall  f1-score   support
+
+  Legitimate       0.95      0.93      0.94      9208
+       Fraud       0.35      0.45      0.39       792
+
+    accuracy                           0.89     10000
+   macro avg       0.65      0.69      0.66     10000
+weighted avg       0.90      0.89      0.90     10000
+
+
+Confusion Matrix:
+[[8541  667]
+ [ 439  353]]
