@@ -553,7 +553,60 @@ elif page == "Transaction Explorer":
                 explorer_df["Transaction_Type"] == selected_type
             ]
 
+   
     st.metric("Matching Transactions", f"{len(explorer_df):,}")
+
+    if len(explorer_df) > 0:
+        fraud_count = (
+            explorer_df["Fraud_Label"] == 1
+        ).sum()
+
+        fraud_rate = (
+            fraud_count / len(explorer_df)
+        ) * 100
+
+        col1, col2 = st.columns(2)
+
+        col1.metric(
+            "Fraudulent Transactions",
+            f"{fraud_count:,}",
+        )
+
+        col2.metric(
+            "Fraud Rate",
+            f"{fraud_rate:.2f}%",
+        )
+
+        chart_df = pd.DataFrame({
+            "Status": ["Legitimate", "Fraudulent"],
+            "Count": [
+                (explorer_df["Fraud_Label"] == 0).sum(),
+                fraud_count,
+            ],
+        })
+
+        fig = px.pie(
+            chart_df,
+            names="Status",
+            values="Count",
+            hole=0.6,
+            title="Transaction Risk Distribution",
+            color="Status",
+            color_discrete_map={
+                "Legitimate": "#00D9FF",
+                "Fraudulent": "#A855F7",
+            },
+        )
+
+        fig.update_layout(
+            paper_bgcolor="rgba(0,0,0,0)",
+            font_color="#EDF4FF",
+        )
+
+        st.plotly_chart(
+            fig,
+            use_container_width=True,
+        )
 
     st.dataframe(
         explorer_df,
